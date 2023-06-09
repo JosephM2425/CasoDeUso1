@@ -1,20 +1,50 @@
 package cr.ac.ucenfotec.bl.entities;
 
+/**
+ * @author Joseph Murillo
+ * @version 1.0
+ * @since 08/06/2023
+ *
+ * Esta clase se encarga de gestionar todos los objetos Libro
+ */
 public class Libro {
+    /**
+     * Declaracion de atributos del objeto
+     */
     private int id;
-    private String nombre;
-    private byte estado;
+    private String titulo;
+    private Boolean estado;
     private Autor autor;
     private Categoria categoria;
 
-    public Libro(int id, String nombre, byte estado, Autor autor, Categoria categoria) {
+    //Seteo de los constructores
+
+    /**
+     * Este es el constructor por defecto
+     */
+    public Libro() {
+    }
+
+    /**
+     * Crea una nueva instancia de la clase Libro
+     *
+     * @param id es de tipo int y corresponde al ID del libro
+     * @param titulo es de tipo String y corresponde al título del libro
+     * @param estado es de tipo Boolean y corresponde al estado del libro
+     * @param autor es de tipo Autor y corresponde al autor del libro
+     * @param categoria es de tipo Categoria y corresponde a la categoría del libro
+     */
+    public Libro(int id, String titulo, Boolean estado, Autor autor, Categoria categoria) {
         this.id = id;
-        this.nombre = nombre;
+        this.titulo = titulo;
         this.estado = estado;
         this.autor = autor;
         this.categoria = categoria;
     }
 
+    /**
+     * Getters y setters de los atributos del objeto
+     */
     public int getId() {
         return id;
     }
@@ -23,19 +53,19 @@ public class Libro {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
-    public byte getEstado() {
+    public Boolean getEstado() {
         return estado;
     }
 
-    public void setEstado(byte estado) {
+    public void setEstado(Boolean estado) {
         this.estado = estado;
     }
 
@@ -53,5 +83,20 @@ public class Libro {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    /**
+     * Metodo que devuelve los atributos en formato String
+     * @return devuelve todos los atributos del objeto en formato String
+     */
+    @Override
+    public String toString() {
+        return "Libro{" +
+                "id=" + id +
+                ", titulo='" + titulo + '\'' +
+                ", estado=" + estado +
+                ", autor=" + autor +
+                ", categoria=" + categoria +
+                '}';
     }
 }
