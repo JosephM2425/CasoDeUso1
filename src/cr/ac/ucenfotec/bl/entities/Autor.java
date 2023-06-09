@@ -15,6 +15,7 @@ public class Autor {
     private String nombre;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     //Seteo de los constructores
 
     /**
@@ -22,6 +23,8 @@ public class Autor {
      */
 =======
 >>>>>>> c94184a (Added AutorDAO and other comments)
+=======
+>>>>>>> c94184a39fd8be882b873a383073f3a128b5abcd
     public Autor() {
     }
 

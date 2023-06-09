@@ -13,6 +13,7 @@ public class Libro {
      */
     private int id;
 <<<<<<< HEAD
+<<<<<<< HEAD
     private String titulo;
     private Boolean estado;
     private Autor autor;
@@ -46,6 +47,16 @@ public class Libro {
     }
     public Libro(int id, String nombre, boolean estado, Autor autor, Categoria categoria) {
 >>>>>>> c94184a (Added AutorDAO and other comments)
+=======
+    private String nombre;
+    private boolean estado;
+    private Autor autor;
+    private Categoria categoria;
+
+    public Libro() {
+    }
+    public Libro(int id, String nombre, boolean estado, Autor autor, Categoria categoria) {
+>>>>>>> c94184a39fd8be882b873a383073f3a128b5abcd
         this.id = id;
         this.titulo = titulo;
         this.estado = estado;
@@ -73,6 +84,7 @@ public class Libro {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     public Boolean getEstado() {
         return estado;
     }
@@ -85,6 +97,13 @@ public class Libro {
 
     public void setEstado(boolean estado) {
 >>>>>>> c94184a (Added AutorDAO and other comments)
+=======
+    public boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+>>>>>>> c94184a39fd8be882b873a383073f3a128b5abcd
         this.estado = estado;
     }
 

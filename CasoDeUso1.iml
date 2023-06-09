@@ -8,8 +8,11 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
 <<<<<<< HEAD
+<<<<<<< HEAD
     <orderEntry type="library" name="mssql-jdbc-12.2.0.jre11" level="project" />
 =======
+=======
+>>>>>>> c94184a39fd8be882b873a383073f3a128b5abcd
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -19,6 +22,9 @@
         <SOURCES />
       </library>
     </orderEntry>
+<<<<<<< HEAD
 >>>>>>> c94184a (Added AutorDAO and other comments)
+=======
+>>>>>>> c94184a39fd8be882b873a383073f3a128b5abcd
   </component>
 </module>

@@ -15,6 +15,7 @@ public class Categoria {
     private String nombre;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     //Seteo de los constructores
 
     /**
@@ -33,6 +34,10 @@ public class Categoria {
     public Categoria() {
     }
 >>>>>>> c94184a (Added AutorDAO and other comments)
+=======
+    public Categoria() {
+    }
+>>>>>>> c94184a39fd8be882b873a383073f3a128b5abcd
     public Categoria(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
