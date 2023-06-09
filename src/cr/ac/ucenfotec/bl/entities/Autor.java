@@ -22,6 +22,12 @@ public class Autor {
     public Autor() {
     }
 
+    /**
+     * Crea una nueva instancia de la clase Autor
+     *
+     * @param id es de tipo int y corresponde al identificador del autor
+     * @param nombre es de tipo String y corresponde al nombre del autor
+     */
     public Autor(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
