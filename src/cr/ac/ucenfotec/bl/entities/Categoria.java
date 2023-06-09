@@ -13,7 +13,6 @@ public class Categoria {
      */
     private int id;
     private String nombre;
-
     //Seteo de los constructores
 
     /**

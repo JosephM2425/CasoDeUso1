@@ -49,25 +49,6 @@ public class Usuario {
     }
 
     /**
-     * Crea una nueva instancia de la clase Usuario sin el id
-     *
-     * @param nombre_completo es de tipo String y corresponde al nombre completo del usuario
-     * @param direccion es de tipo String y corresponde a la dirección del usuario
-     * @param telefono es de tipo String y corresponde al número de teléfono del usuario
-     * @param nombre_usuario es de tipo String y corresponde al nombre de usuario del usuario
-     * @param contrasena es de tipo String y corresponde a la contraseña del usuario
-     * @param rol es de tipo String y corresponde al rol del usuario
-     */
-    public Usuario(String nombre_completo, String direccion, String telefono, String nombre_usuario, String contrasena, String rol) {
-        this.nombre_completo = nombre_completo;
-        this.direccion = direccion;
-        this.telefono = telefono;
-        this.nombre_usuario = nombre_usuario;
-        this.contrasena = contrasena;
-        this.rol = rol;
-    }
-
-    /**
      * Getters y setters de los atributos del objeto
      */
     public int getId() {
