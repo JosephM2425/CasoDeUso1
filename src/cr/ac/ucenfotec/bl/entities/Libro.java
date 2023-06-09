@@ -3,11 +3,13 @@ package cr.ac.ucenfotec.bl.entities;
 public class Libro {
     private int id;
     private String nombre;
-    private byte estado;
+    private boolean estado;
     private Autor autor;
     private Categoria categoria;
 
-    public Libro(int id, String nombre, byte estado, Autor autor, Categoria categoria) {
+    public Libro() {
+    }
+    public Libro(int id, String nombre, boolean estado, Autor autor, Categoria categoria) {
         this.id = id;
         this.nombre = nombre;
         this.estado = estado;
@@ -31,11 +33,11 @@ public class Libro {
         this.nombre = nombre;
     }
 
-    public byte getEstado() {
+    public boolean getEstado() {
         return estado;
     }
 
-    public void setEstado(byte estado) {
+    public void setEstado(boolean estado) {
         this.estado = estado;
     }
 

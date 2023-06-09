@@ -4,6 +4,9 @@ public class Autor {
     private int id;
     private String nombre;
 
+    public Autor() {
+    }
+
     public Autor(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;

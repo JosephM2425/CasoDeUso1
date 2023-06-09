@@ -10,13 +10,13 @@ import java.util.ArrayList;
  * @version 1.0
  * @since 09/06/2023
  */
-public class AutorDAO {
+public class CategoríaDAO {
 
     /**
-     * Método para agregar un autor a la base de datos
-     * @param tmpAutor el autor a insertar
+     * Método para agregar una categoria a la base de datos
+     * @param tmpCategoria la categoria a insertar
      */
-    public void agregarAutor(Autor tmpAutor){
+    public void agregarCategoria(Categoria tmpCategoria){
         try{
             Configuracion configuracion = new Configuracion();
             Class.forName(configuracion.getClaseJDBC());
@@ -24,10 +24,10 @@ public class AutorDAO {
             PreparedStatement stmt;
             ResultSet rs=null;
             String strConexion = configuracion.getStringConexion();
-            String query = "EXECUTE sp_registrar_autor ?";
+            String query = "EXECUTE sp_registrar_categoria ?";
             conn = DriverManager.getConnection(strConexion);
             stmt = conn.prepareStatement(query);
-            stmt.setString(1,tmpAutor.getNombre());
+            stmt.setString(1,tmpCategoria.getNombre());
             try {
                 stmt.execute();
             }
@@ -41,16 +41,16 @@ public class AutorDAO {
     }
 
     /**
-     * Metodo para listar los autores
-     * @return una lista de autores
+     * Metodo para listar las categorías
+     * @return una lista de categorías
      */
-    public ArrayList<Autor> listarAutores(){
-        ArrayList<Autor> autores = new ArrayList<>();
+    public ArrayList<Categoria> listarCategorias(){
+        ArrayList<Categoria> categorias = new ArrayList<>();
         try {
             Configuracion configuracion=new Configuracion();
             Class.forName(configuracion.getClaseJDBC());
             Connection conn=null;
-            String query = "SELECT * FROM vw_autores";
+            String query = "SELECT * FROM vw_categorias";
             Statement stmt;
             ResultSet rs;
             String strConexion = configuracion.getStringConexion();
@@ -58,25 +58,26 @@ public class AutorDAO {
             stmt=conn.createStatement();
             rs = stmt.executeQuery(query);
             while (rs.next()){
-                Autor autor = new Autor();
-                autor.setId(Integer.parseInt(rs.getString("id")));
-                autor.setNombre(rs.getString("nombre"));
-                autores.add(autor);
+                Categoria categoria = new Categoria();
+                categoria.setId(Integer.parseInt(rs.getString("id")));
+                categoria.setNombre(rs.getString("nombre"));
+                categorias.add(categoria);
             }
             conn.close();
         }catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return autores;
+        return categorias;
     }
+
     /**
-     * Método para buscar un autor con su ID
-     * @param tmpAutor el ID del autor a buscar
-     * @return el autor
+     * Método para buscar una categoria con su ID
+     * @param tmpCategoria el ID de la categoria a buscar
+     * @return la categoria
      */
-    public Autor buscarAutor(String tmpAutor)  {
+    public Categoria buscarCategoria(String tmpCategoria)  {
         Configuracion configuracion = new Configuracion();
-        Autor autor = new Autor();
+        Categoria categoria = new Categoria();
         try{
             Class.forName(configuracion.getClaseJDBC());
             String strConexion = configuracion.getStringConexion();
@@ -84,16 +85,16 @@ public class AutorDAO {
             PreparedStatement stmt = null;
             ResultSet rs = null;
             conn = DriverManager.getConnection(strConexion);
-            String query = "EXECUTE sp_buscar_autor_por_id ? ";
+            String query = "EXECUTE sp_buscar_categoria_por_id ? ";
             stmt = conn.prepareStatement(query);
-            stmt.setString(1, tmpAutor);
+            stmt.setString(1, tmpCategoria);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                autor.setNombre(rs.getString("nombre_autor"));
+                categoria.setNombre(rs.getString("nombre_categoria"));
             }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return autor;
+        return categoria;
     }
 }
