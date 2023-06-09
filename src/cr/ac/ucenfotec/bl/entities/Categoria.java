@@ -13,9 +13,6 @@ public class Categoria {
      */
     private int id;
     private String nombre;
-
-<<<<<<< HEAD
-<<<<<<< HEAD
     //Seteo de los constructores
 
     /**
@@ -30,14 +27,6 @@ public class Categoria {
      * @param id es de tipo int y corresponde al identificador de la categoría
      * @param nombre es de tipo String y corresponde al nombre de la categoría
      */
-=======
-    public Categoria() {
-    }
->>>>>>> c94184a (Added AutorDAO and other comments)
-=======
-    public Categoria() {
-    }
->>>>>>> c94184a39fd8be882b873a383073f3a128b5abcd
     public Categoria(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;

@@ -28,15 +28,7 @@ public class Prestamo {
     public Prestamo() {
 
     }
-
-    public Prestamo(int id, Libro libro, Usuario usuario, LocalDate fecha_prestamo, LocalDate fecha_vencimiento) {
-        this.id = id;
-        this.libro = libro;
-        this.usuario = usuario;
-        this.fecha_prestamo = fecha_prestamo;
-        this.fecha_vencimiento = fecha_vencimiento;
-    }
-
+    
     /**
      * Crea una nueva instancia de la clase Prestamo
      *
