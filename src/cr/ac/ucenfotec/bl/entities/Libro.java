@@ -34,7 +34,7 @@ public class Libro {
      * @param autor es de tipo Autor y corresponde al autor del libro
      * @param categoria es de tipo Categoria y corresponde a la categoría del libro
      */
-    public Libro(int id, String titulo, Boolean estado, Autor autor, Categoria categoria) {
+    public Libro(int id, String nombre, boolean estado, Autor autor, Categoria categoria) {
         this.id = id;
         this.titulo = titulo;
         this.estado = estado;

@@ -28,7 +28,7 @@ public class Prestamo {
     public Prestamo() {
 
     }
-
+    
     /**
      * Crea una nueva instancia de la clase Prestamo
      *
