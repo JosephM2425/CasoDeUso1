@@ -14,11 +14,14 @@ public class Autor {
     private int id;
     private String nombre;
 
+<<<<<<< HEAD
     //Seteo de los constructores
 
     /**
      * Este es el constructor por defecto
      */
+=======
+>>>>>>> c94184a (Added AutorDAO and other comments)
     public Autor() {
     }
 

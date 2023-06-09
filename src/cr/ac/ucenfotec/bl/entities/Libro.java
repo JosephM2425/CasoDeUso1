@@ -12,6 +12,7 @@ public class Libro {
      * Declaracion de atributos del objeto
      */
     private int id;
+<<<<<<< HEAD
     private String titulo;
     private Boolean estado;
     private Autor autor;
@@ -35,6 +36,16 @@ public class Libro {
      * @param categoria es de tipo Categoria y corresponde a la categoría del libro
      */
     public Libro(int id, String titulo, Boolean estado, Autor autor, Categoria categoria) {
+=======
+    private String nombre;
+    private boolean estado;
+    private Autor autor;
+    private Categoria categoria;
+
+    public Libro() {
+    }
+    public Libro(int id, String nombre, boolean estado, Autor autor, Categoria categoria) {
+>>>>>>> c94184a (Added AutorDAO and other comments)
         this.id = id;
         this.titulo = titulo;
         this.estado = estado;
@@ -61,11 +72,19 @@ public class Libro {
         this.titulo = titulo;
     }
 
+<<<<<<< HEAD
     public Boolean getEstado() {
         return estado;
     }
 
     public void setEstado(Boolean estado) {
+=======
+    public boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+>>>>>>> c94184a (Added AutorDAO and other comments)
         this.estado = estado;
     }
 
