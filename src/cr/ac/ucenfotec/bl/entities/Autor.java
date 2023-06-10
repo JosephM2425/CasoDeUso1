@@ -34,6 +34,15 @@ public class Autor {
     }
 
     /**
+     * Crea una nueva instancia de la clase Autor sin el id
+     *
+     * @param nombre es de tipo String y corresponde al nombre del autor
+     */
+    public Autor(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /**
      * Getters y setters de los atributos del objeto
      */
     public int getId() {

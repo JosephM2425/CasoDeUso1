@@ -49,6 +49,21 @@ public class Prestamo {
     }
 
     /**
+     * Crea una nueva instancia de la clase Prestamo sin el id ni la fecha de devolucion
+     *
+     * @param libro es de tipo Libro y corresponde al libro prestado en el préstamo
+     * @param usuario es de tipo Usuario y corresponde al usuario que solicita el préstamo
+     * @param fecha_prestamo es de tipo LocalDate y corresponde a la fecha en que se realiza el préstamo
+     * @param fecha_vencimiento es de tipo LocalDate y corresponde a la fecha límite para la devolución del libro
+     */
+    public Prestamo(Libro libro, Usuario usuario, LocalDate fecha_prestamo, LocalDate fecha_vencimiento) {
+        this.libro = libro;
+        this.usuario = usuario;
+        this.fecha_prestamo = fecha_prestamo;
+        this.fecha_vencimiento = fecha_vencimiento;
+    }
+
+    /**
      * Getters y setters de los atributos del objeto
      */
     public int getId() {

@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @version 1.0
  * @since 09/06/2023
  */
-public class CategoríaDAO {
+public class CategoriaDAO {
 
     /**
      * Método para agregar una categoria a la base de datos
@@ -57,7 +57,7 @@ public class CategoríaDAO {
             rs = stmt.executeQuery(query);
             while (rs.next()){
                 Categoria categoria = new Categoria();
-                categoria.setId(Integer.parseInt(rs.getString("id")));
+                categoria.setId(rs.getInt("id"));
                 categoria.setNombre(rs.getString("nombre"));
                 categorias.add(categoria);
             }
@@ -69,11 +69,40 @@ public class CategoríaDAO {
     }
 
     /**
-     * Método para buscar una categoria con su ID
-     * @param tmpCategoria el ID de la categoria a buscar
+     * Método para buscar una categoria con su nombre
+     * @param nombreCategoria el nombre de la categoria a buscar
      * @return la categoria
      */
-    public Categoria buscarCategoria(String tmpCategoria)  {
+    public Categoria buscarCategoria(String nombreCategoria)  {
+        Configuracion configuracion = new Configuracion();
+        Categoria categoria = new Categoria();
+        try{
+            Class.forName(configuracion.getClaseJDBC());
+            String strConexion = configuracion.getStringConexion();
+            Connection conn = null;
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+            conn = DriverManager.getConnection(strConexion);
+            String query = "EXECUTE sp_buscar_categoria_por_nombre ? ";
+            stmt = conn.prepareStatement(query);
+            stmt.setString(1, nombreCategoria);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                categoria.setId(rs.getInt("id_categoria"));
+                categoria.setNombre(rs.getString("nombre_categoria"));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return categoria;
+    }
+
+    /**
+     * Método para buscar una categoria con su id
+     * @param idCategoria el id de la categoria a buscar
+     * @return la categoria
+     */
+    public Categoria buscarCategoria(int idCategoria)  {
         Configuracion configuracion = new Configuracion();
         Categoria categoria = new Categoria();
         try{
@@ -85,9 +114,10 @@ public class CategoríaDAO {
             conn = DriverManager.getConnection(strConexion);
             String query = "EXECUTE sp_buscar_categoria_por_id ? ";
             stmt = conn.prepareStatement(query);
-            stmt.setString(1, tmpCategoria);
+            stmt.setInt(1, idCategoria);
             rs = stmt.executeQuery();
             if (rs.next()) {
+                categoria.setId(rs.getInt("id_categoria"));
                 categoria.setNombre(rs.getString("nombre_categoria"));
             }
         } catch (SQLException | ClassNotFoundException e) {
