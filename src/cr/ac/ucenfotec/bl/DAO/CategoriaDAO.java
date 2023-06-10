@@ -91,10 +91,11 @@ public class CategoriaDAO {
                 categoria.setId(rs.getInt("id_categoria"));
                 categoria.setNombre(rs.getString("nombre_categoria"));
             }
+            return categoria;
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            return null;
         }
-        return categoria;
+
     }
 
     /**

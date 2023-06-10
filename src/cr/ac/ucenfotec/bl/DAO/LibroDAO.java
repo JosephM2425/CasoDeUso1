@@ -35,7 +35,6 @@ public class LibroDAO {
             return 0;
         }
         catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
             return 1;
         }
     }
@@ -102,7 +101,6 @@ public class LibroDAO {
                 libro.setCategoria(categoriaDAO.buscarCategoria(rs.getInt("id_categoria")));
             }
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
             return null;
         }
         return libro;
@@ -136,7 +134,6 @@ public class LibroDAO {
                 libro.setCategoria(categoriaDAO.buscarCategoria(rs.getInt("id_categoria")));
             }
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
             return null;
         }
         return libro;
