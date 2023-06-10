@@ -32,3 +32,4 @@ bin/
 config/
 .idea/dataSources.xml
 *.iml
+config.properties

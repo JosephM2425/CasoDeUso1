@@ -7,6 +7,24 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+<<<<<<< HEAD
+<<<<<<< HEAD
     <orderEntry type="library" name="mssql-jdbc-12.2.0.jre11" level="project" />
+=======
+=======
+>>>>>>> c94184a39fd8be882b873a383073f3a128b5abcd
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Drivers JavaFX. JDBC/driver conexión bd/mssql-jdbc-8.2.2.jre13.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+<<<<<<< HEAD
+>>>>>>> c94184a (Added AutorDAO and other comments)
+=======
+>>>>>>> c94184a39fd8be882b873a383073f3a128b5abcd
   </component>
 </module>
