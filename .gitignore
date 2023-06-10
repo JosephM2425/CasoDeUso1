@@ -29,4 +29,7 @@ bin/
 .DS_Store
 
 ### Config ###
+config/
+.idea/dataSources.xml
+*.iml
 config.properties
