@@ -45,9 +45,7 @@ public class Libro {
     /**
      * Crea una nueva instancia de la clase Libro sin el id ni el estado
      *
-     * @param id es de tipo int y corresponde al ID del libro
      * @param titulo es de tipo String y corresponde al título del libro
-     * @param estado es de tipo Boolean y corresponde al estado del libro
      * @param autor es de tipo Autor y corresponde al autor del libro
      * @param categoria es de tipo Categoria y corresponde a la categoría del libro
      */
