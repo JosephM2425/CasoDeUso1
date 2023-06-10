@@ -67,12 +67,42 @@ public class AutorDAO {
         }
         return autores;
     }
+
     /**
-     * Método para buscar un autor con su ID
-     * @param tmpAutor el ID del autor a buscar
+     * Método para buscar un autor con su nombre
+     * @param nombreAutor el nombre del autor a buscar
      * @return el autor
      */
-    public Autor buscarAutor(String tmpAutor)  {
+    public Autor buscarAutor(String nombreAutor)  {
+        Configuracion configuracion = new Configuracion();
+        Autor autor = new Autor();
+        try{
+            Class.forName(configuracion.getClaseJDBC());
+            String strConexion = configuracion.getStringConexion();
+            Connection conn = null;
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+            conn = DriverManager.getConnection(strConexion);
+            String query = "EXECUTE sp_buscar_autor_por_nombre ? ";
+            stmt = conn.prepareStatement(query);
+            stmt.setString(1, nombreAutor);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                autor.setId(rs.getInt("id_autor"));
+                autor.setNombre(rs.getString("nombre_autor"));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return autor;
+    }
+
+    /**
+     * Método para buscar un autor con su id
+     * @param idAutor el id del autor a buscar
+     * @return el autor
+     */
+    public Autor buscarAutor(int idAutor)  {
         Configuracion configuracion = new Configuracion();
         Autor autor = new Autor();
         try{
@@ -84,9 +114,10 @@ public class AutorDAO {
             conn = DriverManager.getConnection(strConexion);
             String query = "EXECUTE sp_buscar_autor_por_id ? ";
             stmt = conn.prepareStatement(query);
-            stmt.setString(1, tmpAutor);
+            stmt.setInt(1, idAutor);
             rs = stmt.executeQuery();
             if (rs.next()) {
+                autor.setId(rs.getInt("id_autor"));
                 autor.setNombre(rs.getString("nombre_autor"));
             }
         } catch (SQLException | ClassNotFoundException e) {

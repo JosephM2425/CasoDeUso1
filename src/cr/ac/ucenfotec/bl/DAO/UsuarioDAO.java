@@ -120,7 +120,7 @@ public class UsuarioDAO {
      * @param nombreUsuario es de tipo String y corresponde al nombre de usuario del usuario por buscar
      * @return usuario es de tipo Usuario y corresponde al usuario por buscar
      */
-    public Usuario buscarUsuarioPorNombreUsuario(String nombreUsuario)
+    public Usuario buscarUsuario(String nombreUsuario)
     {
         Configuracion configuracion = new Configuracion();
         Usuario usuario = new Usuario();
@@ -156,7 +156,7 @@ public class UsuarioDAO {
      * @param idUsuario es de tipo int y corresponde al id del usuario por buscar
      * @return usuario es de tipo Usuario y corresponde al usuario por buscar
      */
-    public Usuario buscarUsuarioPorId(int idUsuario)
+    public Usuario buscarUsuario(int idUsuario)
     {
         Configuracion configuracion = new Configuracion();
         Usuario usuario = new Usuario();
@@ -185,5 +185,30 @@ public class UsuarioDAO {
             return null;
         }
         return usuario;
+    }
+
+    /**
+     * Metodo para eliminar un usuario
+     * @param usuario es de tipo Usuario y corresponde al usuario por eliminar
+     */
+    public void eliminarUsuario(Usuario usuario) {
+        try {
+            //Se crea una nueva instancia del archivo de configuración
+            Configuracion configuracion= new Configuracion();
+            //Lo lee del archivo de configuracion
+            Class.forName(configuracion.getClaseJDBC());
+            Connection conn = null;
+            PreparedStatement stmt = null;
+            String strConexion = configuracion.getStringConexion();
+            conn = DriverManager.getConnection(strConexion);
+
+            String query = "EXECUTE sp_eliminar_usuario ?";
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1,usuario.getId());
+            stmt.execute();
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
