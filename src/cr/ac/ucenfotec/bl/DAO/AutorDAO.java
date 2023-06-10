@@ -57,8 +57,8 @@ public class AutorDAO {
             rs = stmt.executeQuery(query);
             while (rs.next()){
                 Autor autor = new Autor();
-                autor.setId(Integer.parseInt(rs.getString("id")));
-                autor.setNombre(rs.getString("nombre"));
+                autor.setId(Integer.parseInt(rs.getString("id_autor")));
+                autor.setNombre(rs.getString("nombre_autor"));
                 autores.add(autor);
             }
             conn.close();
