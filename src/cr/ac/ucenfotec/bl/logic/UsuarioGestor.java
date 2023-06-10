@@ -16,7 +16,7 @@ public class UsuarioGestor {
 
     public String registrarUsuario(String nombre_completo, String direccion, String telefono, String nombre_usuario, String contrasena, String rol) {
         Usuario usuario = new Usuario(nombre_completo, direccion, telefono, nombre_usuario, contrasena, rol);
-        if (existeUsuario(usuario)) {
+        if (!existeUsuario(usuario)) {
             int resultadoRegistro = usuarioDAO.registrarUsuario(usuario);
             if (resultadoRegistro == 0) {
                 return "Registro Exitoso!";
@@ -33,7 +33,7 @@ public class UsuarioGestor {
     }
 
     public String modificarUsuario(Usuario usuario) {
-        if (!existeUsuario(usuario)) {
+        if (existeUsuario(usuario)) {
             int resultadoRegistro = usuarioDAO.modificarUsuario(usuario);
             if (resultadoRegistro == 0) {
                 return "Registro Exitoso!";
