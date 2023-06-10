@@ -1,6 +1,7 @@
 package cr.ac.ucenfotec.bl.logic;
 
 import cr.ac.ucenfotec.bl.DAO.UsuarioDAO;
+import cr.ac.ucenfotec.bl.entities.Prestamo;
 import cr.ac.ucenfotec.bl.entities.Usuario;
 
 import java.sql.SQLException;
@@ -13,8 +14,9 @@ public class UsuarioGestor {
         this.usuarioDAO = new UsuarioDAO();
     }
 
-    public String registrarUsuario(Usuario usuario) {
-        if (!existeUsuario(usuario)) {
+    public String registrarUsuario(String nombre_completo, String direccion, String telefono, String nombre_usuario, String contrasena, String rol) {
+        Usuario usuario = new Usuario(nombre_completo, direccion, telefono, nombre_usuario, contrasena, rol);
+        if (existeUsuario(usuario)) {
             int resultadoRegistro = usuarioDAO.registrarUsuario(usuario);
             if (resultadoRegistro == 0) {
                 return "Registro Exitoso!";
@@ -44,15 +46,26 @@ public class UsuarioGestor {
     }
 
     public Usuario buscarUsuarioPorNombreUsuario(String nombreUsuario) {
-        return usuarioDAO.buscarUsuarioPorNombreUsuario(nombreUsuario);
+        return usuarioDAO.buscarUsuario(nombreUsuario);
     }
 
     public Usuario buscarUsuarioPorId(int idUsuario) {
-            return usuarioDAO.buscarUsuarioPorId(idUsuario);
+            return usuarioDAO.buscarUsuario(idUsuario);
+    }
+
+    public String eliminarUsuario(int idUsuario) {
+        Usuario usuario = usuarioDAO.buscarUsuario(idUsuario);
+        usuarioDAO.eliminarUsuario(usuario);
+
+        if (usuarioDAO.buscarUsuario(idUsuario) ==  null) {
+            return "Usuario eliminado!";
+        } else {
+            return "Usuario no pudo ser eliminado!";
+        }
     }
 
     public boolean existeUsuario(Usuario usuario) {
-        if (usuarioDAO.buscarUsuarioPorId(usuario.getId()) == null) {
+        if (usuarioDAO.buscarUsuario(usuario.getId()) == null) {
             return false;
         } else {
             return true;
