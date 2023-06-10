@@ -57,8 +57,8 @@ public class CategoriaDAO {
             rs = stmt.executeQuery(query);
             while (rs.next()){
                 Categoria categoria = new Categoria();
-                categoria.setId(rs.getInt("id"));
-                categoria.setNombre(rs.getString("nombre"));
+                categoria.setId(rs.getInt("id_categoria"));
+                categoria.setNombre(rs.getString("nombre_categoria"));
                 categorias.add(categoria);
             }
             conn.close();
