@@ -15,7 +15,6 @@ public class Configuracion {
     //Atributos
     private String claseJDBC;
     private String stringConexion;
-    private String path;
 
     //Constructores
 
@@ -23,10 +22,9 @@ public class Configuracion {
         leerConfig();
     }
 
-    public Configuracion(String claseJDBC, String stringConexion, String path) {
+    public Configuracion(String claseJDBC, String stringConexion) {
         this.claseJDBC = claseJDBC;
         this.stringConexion = stringConexion;
-        this.path = path;
     }
 
     //Getters y Setters
@@ -46,15 +44,11 @@ public class Configuracion {
         this.stringConexion = stringConexion;
     }
 
-    public String getPath() { return path; }
-
-    public void setPath(String path) { this.path = path; }
-
     public void leerConfig(){
-        Properties properties = new Properties();
         try {
-            this.setPath(properties.getProperty("path"));
-            FileInputStream fileInputStream = new FileInputStream(getPath());
+            Properties properties = new Properties();
+            String path = "C:\\Users\\caria\\OneDrive - Diagnostika\\Documentos\\U\\CENFOTEC\\9. Progra con Patrones\\Caso de Estudio 1\\Repositorio\\CasoDeUso1\\src\\cr\\ac\\ucenfotec\\bl\\config\\config.properties";
+            FileInputStream fileInputStream = new FileInputStream(path);
             properties.load(fileInputStream);
             this.setClaseJDBC(properties.getProperty("claseJDBC"));
             this.setStringConexion(properties.getProperty("stringConexion"));
