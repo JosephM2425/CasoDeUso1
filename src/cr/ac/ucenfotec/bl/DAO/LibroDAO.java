@@ -1,11 +1,12 @@
-package cr.ac.ucenfotec.bl.entities;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
+package cr.ac.ucenfotec.bl.DAO;
+import cr.ac.ucenfotec.bl.entities.Libro;
+import cr.ac.ucenfotec.bl.config.Configuracion;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 /**
- * DAO Autor
+ * DAO Libro
  * @author Ruben Cantillo
  * @version 1.0
  * @since 09/06/2023
@@ -16,7 +17,7 @@ public class LibroDAO {
      * Método para agregar un libro a la base de datos
      * @param tmpLibro el libro a insertar
      */
-    public void agregarLibro(Libro tmpLibro){
+    public int agregarLibro(Libro tmpLibro){
         try{
             Configuracion configuracion = new Configuracion();
             Class.forName(configuracion.getClaseJDBC());
@@ -27,19 +28,16 @@ public class LibroDAO {
             String query = "EXECUTE sp_registrar_libro ?,?,?,?";
             conn = DriverManager.getConnection(strConexion);
             stmt = conn.prepareStatement(query);
-            stmt.setString(1,tmpLibro.getNombre());
+            stmt.setString(1,tmpLibro.getTitulo());
             stmt.setBoolean(2,tmpLibro.getEstado());
             stmt.setInt(3,tmpLibro.getAutor().getId());
             stmt.setInt(4,tmpLibro.getCategoria().getId());
-            try {
-                stmt.execute();
-            }
-            catch (SQLServerException e){
-                e.printStackTrace();
-            }
+            stmt.execute();
+            return 0;
         }
         catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
+            return 1;
         }
     }
     /**
@@ -62,7 +60,7 @@ public class LibroDAO {
             while (rs.next()){
                 Libro libro = new Libro();
                 libro.setId(Integer.parseInt(rs.getString("id_libro")));
-                libro.setNombre(rs.getString("nombre"));
+                libro.setTitulo(rs.getString("nombre"));
                 libro.setEstado(rs.getBoolean("estado"));
                 AutorDAO autorDAO = new AutorDAO();
                 libro.setAutor(autorDAO.buscarAutor(rs.getString("id_autor")));
@@ -97,7 +95,7 @@ public class LibroDAO {
             stmt.setString(1, tmpLibro);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                libro.setNombre(rs.getString("nombre_categoria"));
+                libro.setTitulo(rs.getString("nombre_categoria"));
             }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
