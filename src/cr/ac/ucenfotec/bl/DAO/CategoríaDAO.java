@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 /**
- * DAO Autor
+ * DAO Categoría
  * @author Ruben Cantillo
  * @version 1.0
  * @since 09/06/2023
