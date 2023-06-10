@@ -1,5 +1,6 @@
-package cr.ac.ucenfotec.bl.entities;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
+package cr.ac.ucenfotec.bl.DAO;
+import cr.ac.ucenfotec.bl.entities.Autor;
+import cr.ac.ucenfotec.bl.config.Configuracion;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class AutorDAO {
      * Método para agregar un autor a la base de datos
      * @param tmpAutor el autor a insertar
      */
-    public void agregarAutor(Autor tmpAutor){
+    public int agregarAutor(Autor tmpAutor){
         try{
             Configuracion configuracion = new Configuracion();
             Class.forName(configuracion.getClaseJDBC());
@@ -28,15 +29,12 @@ public class AutorDAO {
             conn = DriverManager.getConnection(strConexion);
             stmt = conn.prepareStatement(query);
             stmt.setString(1,tmpAutor.getNombre());
-            try {
-                stmt.execute();
-            }
-            catch (SQLServerException e){
-                e.printStackTrace();
-            }
+            stmt.execute();
+            return 0;
         }
         catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
+            return 1;
         }
     }
 

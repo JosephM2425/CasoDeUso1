@@ -1,5 +1,6 @@
-package cr.ac.ucenfotec.bl.entities;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
+package cr.ac.ucenfotec.bl.DAO;
+import cr.ac.ucenfotec.bl.config.Configuracion;
+import cr.ac.ucenfotec.bl.entities.Categoria;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class CategoríaDAO {
      * Método para agregar una categoria a la base de datos
      * @param tmpCategoria la categoria a insertar
      */
-    public void agregarCategoria(Categoria tmpCategoria){
+    public int agregarCategoria(Categoria tmpCategoria){
         try{
             Configuracion configuracion = new Configuracion();
             Class.forName(configuracion.getClaseJDBC());
@@ -28,15 +29,12 @@ public class CategoríaDAO {
             conn = DriverManager.getConnection(strConexion);
             stmt = conn.prepareStatement(query);
             stmt.setString(1,tmpCategoria.getNombre());
-            try {
-                stmt.execute();
-            }
-            catch (SQLServerException e){
-                e.printStackTrace();
-            }
+            stmt.execute();
+            return 0;
         }
         catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
+            return 1;
         }
     }
 
