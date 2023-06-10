@@ -25,13 +25,12 @@ public class LibroDAO {
             PreparedStatement stmt;
             ResultSet rs=null;
             String strConexion = configuracion.getStringConexion();
-            String query = "EXECUTE sp_registrar_libro ?,?,?,?";
+            String query = "EXECUTE sp_registrar_libro ?,?,?";
             conn = DriverManager.getConnection(strConexion);
             stmt = conn.prepareStatement(query);
             stmt.setString(1,tmpLibro.getTitulo());
-            stmt.setBoolean(2,tmpLibro.getEstado());
-            stmt.setInt(3,tmpLibro.getAutor().getId());
-            stmt.setInt(4,tmpLibro.getCategoria().getId());
+            stmt.setInt(2,tmpLibro.getAutor().getId());
+            stmt.setInt(3,tmpLibro.getCategoria().getId());
             stmt.execute();
             return 0;
         }
@@ -60,17 +59,17 @@ public class LibroDAO {
             while (rs.next()){
                 Libro libro = new Libro();
                 libro.setId(Integer.parseInt(rs.getString("id_libro")));
-                libro.setTitulo(rs.getString("nombre"));
+                libro.setTitulo(rs.getString("titulo"));
                 libro.setEstado(rs.getBoolean("estado"));
                 AutorDAO autorDAO = new AutorDAO();
-                libro.setAutor(autorDAO.buscarAutor(rs.getString("id_autor")));
-                CategoríaDAO categoríaDAO = new CategoríaDAO();
-                libro.setCategoria(categoríaDAO.buscarCategoria(rs.getString("id_categoria")));
+                libro.setAutor(autorDAO.buscarAutor(rs.getInt("id_autor")));
+                CategoriaDAO categoriaDAO = new CategoriaDAO();
+                libro.setCategoria(categoriaDAO.buscarCategoria(rs.getInt("id_categoria")));
                 libros.add(libro);
             }
             conn.close();
         }catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            return null;
         }
         return libros;
     }

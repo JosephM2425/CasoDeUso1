@@ -33,6 +33,15 @@ public class Categoria {
     }
 
     /**
+     * Crea una nueva instancia de la clase Categoria
+     *
+     * @param nombre es de tipo String y corresponde al nombre de la categoría
+     */
+    public Categoria(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /**
      * Getters y setters de los atributos del objeto
      */
     public int getId() {
