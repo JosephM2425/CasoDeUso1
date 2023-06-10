@@ -81,20 +81,35 @@ public class LibroGestor {
         }
     }
 
-    public String modificarLibro (int idLibro, Boolean estadoPorCambiar) {
+    public String modificarLibro (int idLibro, String titulo, Boolean estado, int idAutor, int idCategoria) {
         Libro libro = libroDAO.buscarLibro(idLibro);
-
         if (libro != null) {
-            libro.setEstado(estadoPorCambiar);
-            System.out.println(libro.toString());
+            if (!titulo.equals("")) {
+                libro.setTitulo(titulo);
+            }
+            if (estado) {
+                libro.setEstado(estado);
+            }
+
+            if (idAutor != 0) {
+                libro.setAutor(autorGestor.buscarAutorPorID(idAutor));
+            }
+
+            if (idCategoria != 0) {
+                libro.setCategoria(categoriaGestor.buscarCategoriaPorId(idCategoria));
+            }
+
             libroDAO.modificarLibro(libro);
+
             libro = libroDAO.buscarLibro(idLibro);
             return "Cambio realizado!" +
                     "\n- ID: " + libro.getId() +
                     "\n- Titulo: " + libro.getTitulo() +
-                    "\n- Estado: " + libro.getEstado();
+                    "\n- Estado: " + libro.getEstado() +
+                    "\n- Autor: " + libro.getAutor().getNombre() +
+                    "\n- Categoria: " + libro.getCategoria().getNombre();
         } else {
-            return "Hubo un error, porfavor verifique los datos ingresados";
+            return "No se encontro el libro con el ID: " + idLibro;
         }
     }
 
