@@ -84,6 +84,48 @@ public class UsuarioDAO {
     }
 
     /**
+     * Metodo para listar los usuarios segun su rol
+     * @return un ArrayList con los usuarios
+     */
+    public ArrayList<Usuario> listarUsuarios(String rol)
+    {
+        ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+        try {
+            Configuracion configuracion= new Configuracion();
+            Class.forName(configuracion.getClaseJDBC());
+            Connection conn = null;
+            String query = "";
+            if (rol.equals("Administrador")) {
+                query = "SELECT * FROM vw_usuarios_administrador";
+            } else if (rol.equals("Cliente")) {
+                query = "SELECT * FROM vw_usuarios_cliente";
+            }
+            Statement stmt = null;
+            ResultSet rs = null;
+            String strConexion = configuracion.getStringConexion();
+            conn = DriverManager.getConnection(strConexion);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setId(rs.getInt("ID_USUARIO"));
+                usuario.setNombre_completo(rs.getString("NOMBRE_COMPLETO"));
+                usuario.setDireccion(rs.getString("DIRECCION"));
+                usuario.setTelefono(rs.getString("TELEFONO"));
+                usuario.setNombre_usuario(rs.getString("NOMBRE_USUARIO"));
+                usuario.setContrasena(rs.getString("CONTRASENA"));
+                usuario.setRol(rs.getString("ROL"));
+                usuarios.add(usuario);
+            }
+            conn.close();
+        } catch (Exception e){
+            return null;
+        }
+        return usuarios;
+    }
+
+    /**
      * Metodo para modificar un usuario
      * @param usuario es de tipo Usuario y corresponde al usuario por modificar
      * @return 0 si se modifico correctamente, 1 si no se pudo modificar

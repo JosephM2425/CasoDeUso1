@@ -1,12 +1,15 @@
 package cr.ac.ucenfotec.bl.logic;
 
 import cr.ac.ucenfotec.bl.DAO.UsuarioDAO;
-import cr.ac.ucenfotec.bl.entities.Prestamo;
 import cr.ac.ucenfotec.bl.entities.Usuario;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * Clase UsuarioGestor que se encarga de la gestión de usuarios
+ * @version 1.0
+ * @since 06/06/2022
+ * @author Andres Soza
+ */
 public class UsuarioGestor {
     private UsuarioDAO usuarioDAO;
 
@@ -14,17 +17,16 @@ public class UsuarioGestor {
         this.usuarioDAO = new UsuarioDAO();
     }
 
-    public String registrarUsuario(String nombre_completo, String direccion, String telefono, String nombre_usuario, String contrasena, String rol) {
-        Usuario usuario = new Usuario(nombre_completo, direccion, telefono, nombre_usuario, contrasena, rol);
-        if (!existeUsuario(usuario)) {
+    public String registrarUsuario(Usuario usuario) {
+        if (!existeUsuario(usuario.getNombre_usuario())) {
             int resultadoRegistro = usuarioDAO.registrarUsuario(usuario);
             if (resultadoRegistro == 0) {
-                return "Registro Exitoso!";
+                return "Registro exitoso!";
             } else {
-                return "Hubo un error en el registro, porfavor verifique los datos";
+                return "Hubo un error en el registro, por favor verifique los datos";
             }
         } else {
-            return "Usuario ya existente";
+            return "Usuario ya existente. Por favor elija otro nombre de usuario.";
         }
     }
 
@@ -32,16 +34,22 @@ public class UsuarioGestor {
         return usuarioDAO.listarUsuarios();
     }
 
+    public ArrayList<Usuario> listarUsuarios(String tipoUsuario) {
+        return usuarioDAO.listarUsuarios(tipoUsuario);
+    }
+
     public String modificarUsuario(Usuario usuario) {
-        if (existeUsuario(usuario)) {
+        if (existeUsuario(usuario.getNombre_usuario())) {
+            int idUsuario = usuarioDAO.buscarUsuario(usuario.getNombre_usuario()).getId();
+            usuario.setId(idUsuario);
             int resultadoRegistro = usuarioDAO.modificarUsuario(usuario);
             if (resultadoRegistro == 0) {
-                return "Registro Exitoso!";
+                return "Modificación exitosa!";
             } else {
-                return "Hubo un error en el registro, porfavor verifique los datos";
+                return "Hubo un error en la modificación, por favor verifique los datos.";
             }
         } else {
-            return "Usuario ya existente";
+            return "Usuario no existe. Por favor verifique el nombre de usuario.";
         }
     }
 
@@ -53,19 +61,27 @@ public class UsuarioGestor {
             return usuarioDAO.buscarUsuario(idUsuario);
     }
 
-    public String eliminarUsuario(int idUsuario) {
-        Usuario usuario = usuarioDAO.buscarUsuario(idUsuario);
-        usuarioDAO.eliminarUsuario(usuario);
 
-        if (usuarioDAO.buscarUsuario(idUsuario) ==  null) {
+    public String eliminarUsuario(String nombreUsuario) {
+        Usuario usuario = usuarioDAO.buscarUsuario(nombreUsuario);
+        if (usuario !=  null) {
+            usuarioDAO.eliminarUsuario(usuario);
             return "Usuario eliminado!";
         } else {
-            return "Usuario no pudo ser eliminado!";
+            return "Usuario no existe. Por favor verifique el nombre de usuario.";
         }
     }
 
     public boolean existeUsuario(Usuario usuario) {
         if (usuarioDAO.buscarUsuario(usuario.getId()) == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean existeUsuario(String nombreUsuario) {
+        if (usuarioDAO.buscarUsuario(nombreUsuario) == null) {
             return false;
         } else {
             return true;

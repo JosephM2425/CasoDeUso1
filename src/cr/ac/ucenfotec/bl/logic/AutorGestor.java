@@ -5,6 +5,12 @@ import cr.ac.ucenfotec.bl.entities.Autor;
 
 import java.util.ArrayList;
 
+/**
+ * Clase AutorGestor que se encarga de la gestión de autores
+ * @version 1.0
+ * @since 06/06/2022
+ * @author Andres Soza
+ */
 public class AutorGestor {
     private AutorDAO autorDAO;
 
@@ -12,9 +18,7 @@ public class AutorGestor {
         this.autorDAO = new AutorDAO();
     }
 
-    public String agregarAutor(String nombreAutor) {
-        Autor autor = new Autor();
-        autor.setNombre(nombreAutor);  // Esto es lo que faltaba
+    public String agregarAutor(Autor autor) {
         int resultado = autorDAO.agregarAutor(autor);
         if (resultado == 0) {
             return "Autor agregado exitosamente!";
@@ -32,6 +36,14 @@ public class AutorGestor {
     }
     public Autor buscarAutorPorID (int idAutor) {
         return autorDAO.buscarAutor(idAutor);
+    }
+
+    public boolean existeAutor(String nombreAutor) {
+        boolean existeAutor = false;
+        if(autorDAO.buscarAutor(nombreAutor) != null) {
+            existeAutor = true;
+        }
+        return existeAutor;
     }
 
 }

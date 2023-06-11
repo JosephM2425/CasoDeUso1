@@ -8,6 +8,12 @@ import cr.ac.ucenfotec.bl.entities.Usuario;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * Clase PrestamoGestor que se encarga de la gestión de prestamos
+ * @version 1.0
+ * @since 06/06/2022
+ * @author Andres Soza
+ */
 public class PrestamoGestor {
     private PrestamoDAO prestamoDAO;
     private LibroGestor libroGestor;
@@ -19,12 +25,9 @@ public class PrestamoGestor {
         this.usuarioGestor = new UsuarioGestor();
     }
 
-    public String registrarPrestamo(int idLibro, int idUsuario, LocalDate fecha_vencimiento) {
-        Libro libro = libroGestor.buscarLibroPorID(idLibro);
-        Usuario usuario = usuarioGestor.buscarUsuarioPorId(idUsuario);
+    public String registrarPrestamo(Prestamo prestamo) {
 
-        if (libro != null && usuario != null) {
-            Prestamo prestamo = new Prestamo(libro, usuario, LocalDate.now(), fecha_vencimiento);
+        if (prestamo != null) {
             int resultado = prestamoDAO.registrarPrestamo(prestamo);
 
             if (resultado == 0) {
@@ -33,13 +36,7 @@ public class PrestamoGestor {
                 return "Hubo un error, revisa los datos!";
             }
         } else {
-            if (libro == null) {
-                return "No se encontro el libro mencionado";
-            } else if (usuario == null) {
-                return "No se encontro el usuario mencionado";
-            } else {
-                return "Revisa el libro y usuario";
-            }
+            return "El prestamo no puede ser nulo.";
         }
     }
 
@@ -91,11 +88,13 @@ public class PrestamoGestor {
         }
     }
 
-
-
     public ArrayList<Prestamo> listarPrestamos() {
         return prestamoDAO.listarPrestamos();
     }
+
+    public ArrayList<Prestamo> listarLibrosPrestados() { return prestamoDAO.listarLibrosPrestados(); }
+
+    public ArrayList<Prestamo> listarLibrosPrestados(String nombreUsuario) { return prestamoDAO.listarLibrosPrestados(nombreUsuario); }
 
     public String modificarPrestamo(int idPrestamo, LocalDate fechaDevolucionModificar) {
         Prestamo prestamo = prestamoDAO.buscarPrestamo(idPrestamo);
@@ -104,22 +103,18 @@ public class PrestamoGestor {
             prestamo.setFecha_devolucion(fechaDevolucionModificar);
             prestamoDAO.modificarPrestamo(prestamo);
             prestamo = prestamoDAO.buscarPrestamo(idPrestamo);
-            return "Cambio realizado!" +
-                    "\n- ID: " + prestamo.getId() +
-                    "\n- Libro: " + prestamo.getLibro().getTitulo() +
-                    "\n- Usuario: " + prestamo.getUsuario().getNombre_usuario() +
-                    "\n- Fecha Prestamo: " + prestamo.getFecha_prestamo() +
-                    "\n- Fecha Devolucion: " + prestamo.getFecha_devolucion()+
-                    "\n- Fecha Vencimiento: " + prestamo.getFecha_vencimiento();
+            return "Libro devuelto con exito!";
         } else {
             return "El prestamo no existe";
         }
-
-
     }
 
     public Prestamo buscarPrestamo(int idPrestamo) {
         return prestamoDAO.buscarPrestamo(idPrestamo);
+    }
+
+    public Prestamo buscarPrestamoVigente(Libro libro, Usuario usuario) {
+        return prestamoDAO.buscarPrestamoVigente(libro, usuario);
     }
 
     public String eliminarPrestamo(int idPrestamo) {
