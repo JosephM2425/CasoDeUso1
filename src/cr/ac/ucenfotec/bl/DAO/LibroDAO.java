@@ -164,7 +164,7 @@ public class LibroDAO {
      * Metodo para actualizar un libro en la base de datos
      * @param tmpLibro el libro a actualizar
      */
-    public void modificarLibro(Libro tmpLibro){
+    public int modificarLibro(Libro tmpLibro){
         Configuracion configuracion=new Configuracion();
         try {
             Class.forName(configuracion.getClaseJDBC());
@@ -181,8 +181,9 @@ public class LibroDAO {
             stmt.setInt(4,tmpLibro.getAutor().getId());
             stmt.setInt(5,tmpLibro.getCategoria().getId());
             stmt.execute();
+            return 0;
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            return 1;
         }
     }
 }

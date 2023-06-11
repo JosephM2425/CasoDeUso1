@@ -19,40 +19,74 @@ public class LibroGestor {
         this.categoriaGestor = new CategoriaGestor();
     }
 
-    public String agregarLibro(String titulo, String autorNombre, String categoriaNombre) {
-        Autor autor =  autorGestor.buscarAutorPorNombre(autorNombre);
-        Categoria categoria = categoriaGestor.buscarCategoriaPorNombre(categoriaNombre);
+    public String agregarLibro(Libro libro) {
+        if (libro != null) {
+            if(!existeLibro(libro.getTitulo())) {
+                Autor autor = new Autor(libro.getAutor().getNombre());
+                Categoria categoria = new Categoria(libro.getCategoria().getNombre());
 
-        if (autor != null && categoria != null) {
-            Libro libro = new Libro(titulo,autor, categoria);
-            int resultado = libroDAO.agregarLibro(libro);
-            if (resultado == 0) {
-                return "Registro Exitoso!";
+                if (autorGestor.buscarAutorPorNombre(libro.getAutor().getNombre()) == null) {
+                    autorGestor.agregarAutor(autor);
+                }
+
+                if (categoriaGestor.buscarCategoriaPorNombre(libro.getCategoria().getNombre()) == null) {
+                    categoriaGestor.agregarCategoria(categoria);
+                }
+
+                Autor autorGenerado = autorGestor.buscarAutorPorNombre(libro.getAutor().getNombre());
+                Categoria categoriaGenerada = categoriaGestor.buscarCategoriaPorNombre(libro.getCategoria().getNombre());
+                libro.setAutor(autorGenerado);
+                libro.setCategoria(categoriaGenerada);
+
+                int resultado = libroDAO.agregarLibro(libro);
+                if (resultado == 0) {
+                    return "Registro exitoso!";
+                } else {
+                    return "Hubo un error en el registro, por favor verifique los datos";
+                }
             } else {
-                return "Hubo un error en el registro, porfavor verifique los datos";
+                return "Ya existe un libro con ese título.";
             }
         } else {
-            return "Hubo un error en el registro, porfavor verifique los datos";
+            return "El libro no puede ser nulo.";
         }
-
     }
 
-    public String agregarLibro(String titulo, int autorId, int categoriaId) {
-        Autor autor =  autorGestor.buscarAutorPorID(autorId);
-        Categoria categoria = categoriaGestor.buscarCategoriaPorId(categoriaId);
+    public String modificarLibro(Libro libro) {
+        if (libro != null) {
+            if(existeLibro(libro.getId())) {
+                Autor autor = new Autor(libro.getAutor().getNombre());
+                Categoria categoria = new Categoria(libro.getCategoria().getNombre());
 
-        if (autor != null && categoria != null) {
-            Libro libro = new Libro(titulo,autor, categoria);
-            int resultado = libroDAO.agregarLibro(libro);
-            if (resultado == 0) {
-                return "Registro Exitoso!";
+                if (!autorGestor.existeAutor(libro.getAutor().getNombre())) {
+                    autorGestor.agregarAutor(autor);
+                } else {
+                    autor = autorGestor.buscarAutorPorNombre(libro.getAutor().getNombre());
+                }
+
+                if (!categoriaGestor.existeCategoria(libro.getCategoria().getNombre())) {
+                    categoriaGestor.agregarCategoria(categoria);
+                } else {
+                    categoria = categoriaGestor.buscarCategoriaPorNombre(libro.getCategoria().getNombre());
+                }
+
+                libro.setAutor(autor);
+                libro.setCategoria(categoria);
+
+                libro.toString();
+
+                int resultado = libroDAO.modificarLibro(libro);
+                if (resultado == 0) {
+                    return "Modificacón exitosa!";
+                } else {
+                    return "Hubo un error en la modificacón, por favor verifique los datos.";
+                }
             } else {
-                return "Hubo un error en el registro, porfavor verifique los datos";
+                return "No existe un libro con ese título.";
             }
         } else {
-            return "Hubo un error en el registro, porfavor verifique los datos";
+            return "El libro no puede ser nulo.";
         }
-
     }
 
     public ArrayList<Libro> listarLibros() {
@@ -113,5 +147,24 @@ public class LibroGestor {
         }
     }
 
+    public Boolean existeLibro (String tituloLibro) {
+        Boolean existeLibro = false;
+        if(libroDAO.buscarLibro(tituloLibro) != null) {
+            existeLibro = true;
+        } else {
+            existeLibro = false;
+        }
+        return existeLibro;
+    }
+
+    public Boolean existeLibro (int idLibro) {
+        Boolean existeLibro = false;
+        if(libroDAO.buscarLibro(idLibro) != null) {
+            existeLibro = true;
+        } else {
+            existeLibro = false;
+        }
+        return existeLibro;
+    }
 
 }

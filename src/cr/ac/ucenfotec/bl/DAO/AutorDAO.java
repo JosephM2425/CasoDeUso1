@@ -92,7 +92,7 @@ public class AutorDAO {
                 autor.setNombre(rs.getString("nombre_autor"));
             }
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            return null;
         }
         return autor;
     }
@@ -121,7 +121,7 @@ public class AutorDAO {
                 autor.setNombre(rs.getString("nombre_autor"));
             }
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            return null;
         }
         return autor;
     }

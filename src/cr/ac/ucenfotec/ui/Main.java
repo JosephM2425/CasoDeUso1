@@ -50,7 +50,7 @@ public class Main {
                 UsuarioUI.menuUsuariosCompleto();
                 break;
             case 2:
-                impMenuLibros();
+                LibroUI.menuLibrosCompleto();
                 break;
             case 3:
 
@@ -77,17 +77,6 @@ public class Main {
     static void esperarTecla() throws IOException {
         out.print("Presione la tecla enter para continuar...");
         in.readLine();
-    }
-
-
-    static void impMenuLibros() throws IOException{
-        out.println("[1] Registrar libro");
-        out.println("[2] Modificar libro");
-        out.println("[3] Eliminar libro");
-        out.println("[4] Listar libros");
-        out.println("[5] Buscar libro");
-        out.println("[6] Regresar");
-        out.print("Digite la opción que desea -> ");
     }
 
 }

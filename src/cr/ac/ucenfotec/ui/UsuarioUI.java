@@ -176,7 +176,7 @@ public class UsuarioUI {
             }
             Main.esperarTecla();
         } else {
-            out.println("No existen usuarios de erse tipo.");
+            out.println("No existen usuarios de este tipo.");
             Main.esperarTecla();
         }
     }

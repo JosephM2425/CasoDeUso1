@@ -12,9 +12,7 @@ public class AutorGestor {
         this.autorDAO = new AutorDAO();
     }
 
-    public String agregarAutor(String nombreAutor) {
-        Autor autor = new Autor();
-        autor.setNombre(nombreAutor);  // Esto es lo que faltaba
+    public String agregarAutor(Autor autor) {
         int resultado = autorDAO.agregarAutor(autor);
         if (resultado == 0) {
             return "Autor agregado exitosamente!";
@@ -32,6 +30,14 @@ public class AutorGestor {
     }
     public Autor buscarAutorPorID (int idAutor) {
         return autorDAO.buscarAutor(idAutor);
+    }
+
+    public boolean existeAutor(String nombreAutor) {
+        boolean existeAutor = false;
+        if(autorDAO.buscarAutor(nombreAutor) != null) {
+            existeAutor = true;
+        }
+        return existeAutor;
     }
 
 }

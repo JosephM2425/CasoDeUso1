@@ -122,7 +122,7 @@ public class CategoriaDAO {
                 categoria.setNombre(rs.getString("nombre_categoria"));
             }
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            return null;
         }
         return categoria;
     }
