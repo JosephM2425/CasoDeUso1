@@ -120,9 +120,10 @@ public class AutorDAO {
                 autor.setId(rs.getInt("id_autor"));
                 autor.setNombre(rs.getString("nombre_autor"));
             }
+            return autor;
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            return null;
         }
-        return autor;
+
     }
 }

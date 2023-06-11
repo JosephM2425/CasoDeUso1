@@ -182,7 +182,8 @@ public class LibroDAO {
             stmt.setInt(5,tmpLibro.getCategoria().getId());
             stmt.execute();
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Hubo un error al modificar el libro");
+            System.out.println(e);
         }
     }
 }
