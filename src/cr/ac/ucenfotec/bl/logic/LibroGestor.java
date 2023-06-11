@@ -93,6 +93,10 @@ public class LibroGestor {
         return libroDAO.listarLibros();
     }
 
+    public ArrayList<Libro> listarLibros(Boolean estado) {
+        return libroDAO.listarLibros(estado);
+    }
+
     public Libro buscarLibroPorID (int libroID) {
         return libroDAO.buscarLibro(libroID);
     }

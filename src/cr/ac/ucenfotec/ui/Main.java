@@ -53,7 +53,7 @@ public class Main {
                 LibroUI.menuLibrosCompleto();
                 break;
             case 3:
-
+                PrestamoUI.menuPrestamosCompleto();
                 break;
             case 4:
                 out.println("Saliendo del programa...");

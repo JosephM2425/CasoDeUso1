@@ -97,6 +97,10 @@ public class PrestamoGestor {
         return prestamoDAO.listarPrestamos();
     }
 
+    public ArrayList<Prestamo> listarLibrosPrestados() { return prestamoDAO.listarLibrosPrestados(); }
+
+    public ArrayList<Prestamo> listarLibrosPrestados(String nombreUsuario) { return prestamoDAO.listarLibrosPrestados(nombreUsuario); }
+
     public String modificarPrestamo(int idPrestamo, LocalDate fechaDevolucionModificar) {
         Prestamo prestamo = prestamoDAO.buscarPrestamo(idPrestamo);
 

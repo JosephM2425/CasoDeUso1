@@ -2,7 +2,6 @@ package cr.ac.ucenfotec.ui;
 import cr.ac.ucenfotec.bl.entities.Autor;
 import cr.ac.ucenfotec.bl.entities.Categoria;
 import cr.ac.ucenfotec.bl.entities.Libro;
-import cr.ac.ucenfotec.bl.logic.AutorGestor;
 import cr.ac.ucenfotec.bl.logic.LibroGestor;
 
 import java.io.BufferedReader;
@@ -16,7 +15,6 @@ public class LibroUI {
     public static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     public static PrintStream out = System.out;
     public static LibroGestor libroGestor = new LibroGestor();
-public static AutorGestor autorGestor = new AutorGestor();
 
     /**
     * Método que imprime el menú de opciones de libros

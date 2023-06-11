@@ -1,6 +1,7 @@
 package cr.ac.ucenfotec.bl.DAO;
 import cr.ac.ucenfotec.bl.entities.Libro;
 import cr.ac.ucenfotec.bl.config.Configuracion;
+import cr.ac.ucenfotec.bl.entities.Prestamo;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -72,6 +73,39 @@ public class LibroDAO {
         }
         return libros;
     }
+
+    public ArrayList<Libro> listarLibros(Boolean estado){
+        ArrayList<Libro> libros = new ArrayList<>();
+        try {
+            Configuracion configuracion = new Configuracion();
+            Class.forName(configuracion.getClaseJDBC());
+            String strConexion = configuracion.getStringConexion();
+            Connection conn = null;
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+            conn = DriverManager.getConnection(strConexion);
+            String query = "SELECT * FROM Libro WHERE estado = ?";
+            stmt = conn.prepareStatement(query);
+            stmt.setBoolean(1, estado);
+            rs = stmt.executeQuery();
+            while (rs.next()){
+                Libro libro = new Libro();
+                libro.setId(Integer.parseInt(rs.getString("id_libro")));
+                libro.setTitulo(rs.getString("titulo"));
+                libro.setEstado(rs.getBoolean("estado"));
+                AutorDAO autorDAO = new AutorDAO();
+                libro.setAutor(autorDAO.buscarAutor(rs.getInt("id_autor")));
+                CategoriaDAO categoriaDAO = new CategoriaDAO();
+                libro.setCategoria(categoriaDAO.buscarCategoria(rs.getInt("id_categoria")));
+                libros.add(libro);
+            }
+            conn.close();
+        }catch (SQLException | ClassNotFoundException e) {
+            return null;
+        }
+        return libros;
+    }
+
 
     /**
      * Método para buscar un libro con su ID
