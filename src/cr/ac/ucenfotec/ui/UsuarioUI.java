@@ -5,12 +5,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
-
 import cr.ac.ucenfotec.bl.entities.Usuario;
 import cr.ac.ucenfotec.bl.logic.UsuarioGestor;
 
 
-
+/**
+ * Clase UsuarioUI que imprime el menú de opciones de usuarios y realiza la opción elegida por el usuario
+ * @version 1.0
+ * @since 10/06/2022
+ * @author Carolina Arias
+ */
 public class UsuarioUI {
     public static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     public static PrintStream out = System.out;
@@ -18,6 +22,7 @@ public class UsuarioUI {
 
     /**
     * Método que imprime el menú de opciones de usuarios
+    * @throws IOException es una excepción que se lanza cuando hay un error de entrada/salida
     */
     static void impMenuUsuarios() throws IOException {
         out.println("[1] Registrar usuario");
@@ -31,6 +36,7 @@ public class UsuarioUI {
     /**
     * Método que realiza la opción elegida por el usuario
     * @param opcion es de tipo int y es la opción elegida por el usuario
+    * @throws IOException es una excepción que se lanza cuando hay un error de entrada/salida
     */
     static void menuUsuarios(int opcion) throws IOException{
         switch (opcion) {
@@ -48,7 +54,8 @@ public class UsuarioUI {
                 break;
             case 4:
                 Main.header();
-                listarUsuarios();
+                String rolUsuario = leerRolUsuario();
+                listarUsuarios(rolUsuario);
                 break;
             case 5:
                 Main.menuPrincipalCompleto();
@@ -59,6 +66,10 @@ public class UsuarioUI {
         }
     }
 
+    /**
+     * Método que realiza la funcionalidad completa del menu de usuarios
+     * @throws IOException es una excepción que se lanza cuando hay un error de entrada/salida
+     */
     static void menuUsuariosCompleto() throws IOException {
         int opcion = 0;
         do {
@@ -69,13 +80,11 @@ public class UsuarioUI {
         } while (opcion != 5);
     }
 
-
-    static String leerNombreUsuario() throws IOException {
-        out.print("Digite el nombre de usuario: ");
-        String nombreUsuario = in.readLine();
-        return nombreUsuario;
-    }
-
+    /**
+     * Método que lee el rol del usuario
+     * @return un String con el rol del usuario
+     * @throws IOException es una excepción que se lanza cuando hay un error de entrada/salida
+     */
     static String leerRolUsuario() throws IOException {
         out.println("Elija el rol deseado: ");
         out.println("[1] Administrador");
@@ -104,8 +113,6 @@ public class UsuarioUI {
      * @throws IOException es una excepción que se lanza cuando hay un error de entrada/salida
      */
     static Usuario leerDatosDeUsuario() throws IOException {
-        String nombreUsuario = leerNombreUsuario();
-
         out.print("Digite el nombre completo del usuario: ");
         String nombreCompleto = in.readLine();
 
@@ -114,6 +121,9 @@ public class UsuarioUI {
 
         out.print("Digite el número de teléfono del usuario: ");
         String telefono = in.readLine();
+
+        out.print("Digite el nombre de usuario: ");
+        String nombreUsuario = in.readLine();
 
         out.print("Digite la contraseña del usuario: ");
         String contrasenna = in.readLine();
@@ -144,40 +154,100 @@ public class UsuarioUI {
      * @throws IOException es una excepción que se lanza cuando hay un error de entrada/salida
      */
     static void modificarUsuario() throws IOException {
-        String mensajeNoExiste = "Usuario no existe. Por favor verifique el nombre de usuario.";
-        String resultado = "";
+        int opcion = 0;
         do {
+            listarUsuarios();
+            out.print("Digite la opción que desea -> ");
+            opcion = Main.leerOpcion();
+            if(opcion > cantidadDeUsuarios() || opcion < 1) {
+                out.println("Opción inválida.");
+                Main.esperarTecla();
+            }
+        } while (opcion > cantidadDeUsuarios() || opcion < 1);
+
             Usuario usuario = leerDatosDeUsuario();
-            resultado = usuarioGestor.modificarUsuario(usuario);
+            usuario.setId(devolverUsuarioSeleccionado(opcion).getId());
+            String resultado = usuarioGestor.modificarUsuario(usuario);
             out.println(resultado);
             Main.esperarTecla();
-        } while (resultado.equals(mensajeNoExiste));
     }
 
+    /**
+     * Método que elimina un usuario
+     * @throws IOException es una excepción que se lanza cuando hay un error de entrada/salida
+     */
     static void eliminarUsuario () throws IOException {
-        String mensajeNoExiste = "Usuario no existe. Por favor verifique el nombre de usuario.";
-        String resultado = "";
+        int opcion = 0;
         do {
-            String nombreUsuario = leerNombreUsuario();
-            resultado = usuarioGestor.eliminarUsuario(nombreUsuario);
-            out.println(resultado);
-            Main.esperarTecla();
-        } while (resultado.equals(mensajeNoExiste));
+            listarUsuarios();
+            out.print("Digite la opción que desea -> ");
+            opcion = Main.leerOpcion();
+            if(opcion > cantidadDeUsuarios() || opcion < 1) {
+                out.println("Opción inválida.");
+                Main.esperarTecla();
+            }
+        } while (opcion > cantidadDeUsuarios() || opcion < 1);
+
+        Usuario usuario = devolverUsuarioSeleccionado(opcion);
+        String resultado = usuarioGestor.eliminarUsuario(usuario.getNombre_usuario());
+        out.println(resultado);
+        Main.esperarTecla();
     }
 
+    /**
+     * Método que lista todos los usuarios
+     * @throws IOException es una excepción que se lanza cuando hay un error de entrada/salida
+     */
     static void listarUsuarios() throws IOException {
-        String rolUsuario = leerRolUsuario();
+        ArrayList<Usuario> usuarios = usuarioGestor.listarUsuarios();
+
+        if(!usuarios.isEmpty()) {
+            for (Usuario usuario : usuarios) {
+                out.printf("[%d] Nombre: %s | Nombre de usuario: %s\n", usuarios.indexOf(usuario) + 1, usuario.getNombre_completo(), usuario.getNombre_usuario());
+            }
+        } else {
+            out.println("No existen usuarios.");
+            Main.esperarTecla();
+        }
+    }
+
+    /**
+     * Método que lista los usuarios con un rol específico
+     * @throws IOException es una excepción que se lanza cuando hay un error de entrada/salida
+     */
+    static void listarUsuarios(String rolUsuario) throws IOException {
         ArrayList<Usuario> usuarios = usuarioGestor.listarUsuarios(rolUsuario);
 
         if(!usuarios.isEmpty()) {
-            out.printf("============ Usuarios de tipo %s ============\n", rolUsuario);
+            out.printf("===================== Usuarios de tipo %s =====================\n", rolUsuario);
             for (Usuario usuario : usuarios) {
-                out.printf("[%d] Nombre: %s | Nombre de usuario: %s\n", usuarios.indexOf(usuario), usuario.getNombre_completo(), usuario.getNombre_usuario());
+                out.printf("[%d] Nombre: %s | Nombre de usuario: %s\n", usuarios.indexOf(usuario) + 1, usuario.getNombre_completo(), usuario.getNombre_usuario());
             }
             Main.esperarTecla();
         } else {
             out.println("No existen usuarios de este tipo.");
             Main.esperarTecla();
         }
+    }
+
+    /**
+     * Método que devuelve un usuario seleccionado
+     * @param opcion es la opción que el usuario selecciona
+     * @return un objeto de tipo Usuario
+     */
+    static Usuario devolverUsuarioSeleccionado(int opcion) {
+        ArrayList<Usuario> usuarios = usuarioGestor.listarUsuarios();
+
+        Usuario usuario = usuarios.get(opcion - 1);
+        return usuario;
+    }
+
+    /**
+     * Método que devuelve la cantidad de usuarios
+     * @return un entero con la cantidad de usuarios
+     */
+    static int cantidadDeUsuarios() {
+        ArrayList<Usuario> usuarios = usuarioGestor.listarUsuarios();
+        return usuarios.size();
     }
 }

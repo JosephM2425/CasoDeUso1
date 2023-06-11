@@ -5,6 +5,12 @@ import cr.ac.ucenfotec.bl.entities.Categoria;
 
 import java.util.ArrayList;
 
+/**
+ * Clase CategoriaGestor que se encarga de la gestión de categorias
+ * @version 1.0
+ * @since 06/06/2022
+ * @author Andres Soza
+ */
 public class CategoriaGestor {
     private CategoriaDAO categoriaDAO;
 

@@ -5,6 +5,12 @@ import cr.ac.ucenfotec.bl.entities.Autor;
 
 import java.util.ArrayList;
 
+/**
+ * Clase AutorGestor que se encarga de la gestión de autores
+ * @version 1.0
+ * @since 06/06/2022
+ * @author Andres Soza
+ */
 public class AutorGestor {
     private AutorDAO autorDAO;
 

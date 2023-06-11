@@ -1,4 +1,6 @@
 package cr.ac.ucenfotec.bl.DAO;
+import cr.ac.ucenfotec.bl.entities.Autor;
+import cr.ac.ucenfotec.bl.entities.Categoria;
 import cr.ac.ucenfotec.bl.entities.Libro;
 import cr.ac.ucenfotec.bl.config.Configuracion;
 import cr.ac.ucenfotec.bl.entities.Prestamo;
@@ -61,10 +63,14 @@ public class LibroDAO {
                 libro.setId(Integer.parseInt(rs.getString("id_libro")));
                 libro.setTitulo(rs.getString("titulo"));
                 libro.setEstado(rs.getBoolean("estado"));
-                AutorDAO autorDAO = new AutorDAO();
-                libro.setAutor(autorDAO.buscarAutor(rs.getInt("id_autor")));
-                CategoriaDAO categoriaDAO = new CategoriaDAO();
-                libro.setCategoria(categoriaDAO.buscarCategoria(rs.getInt("id_categoria")));
+                Autor autor = new Autor();
+                autor.setId(rs.getInt("id_autor"));
+                autor.setNombre(rs.getString("nombre_autor"));
+                libro.setAutor(autor);
+                Categoria categoria = new Categoria();
+                categoria.setId(rs.getInt("id_categoria"));
+                categoria.setNombre(rs.getString("nombre_categoria"));
+                libro.setCategoria(categoria);
                 libros.add(libro);
             }
             conn.close();
@@ -129,10 +135,15 @@ public class LibroDAO {
             if (rs.next()) {
                 libro.setId(rs.getInt("id_libro"));
                 libro.setTitulo(rs.getString("titulo"));
-                AutorDAO autorDAO = new AutorDAO();
-                libro.setAutor(autorDAO.buscarAutor(rs.getInt("id_autor")));
-                CategoriaDAO categoriaDAO = new CategoriaDAO();
-                libro.setCategoria(categoriaDAO.buscarCategoria(rs.getInt("id_categoria")));
+                libro.setEstado(rs.getBoolean("estado"));
+                Autor autor = new Autor();
+                autor.setId(rs.getInt("id_autor"));
+                autor.setNombre(rs.getString("nombre_autor"));
+                libro.setAutor(autor);
+                Categoria categoria = new Categoria();
+                categoria.setId(rs.getInt("id_categoria"));
+                categoria.setNombre(rs.getString("nombre_categoria"));
+                libro.setCategoria(categoria);
             }
         } catch (SQLException | ClassNotFoundException e) {
             return null;
@@ -162,10 +173,15 @@ public class LibroDAO {
             if (rs.next()) {
                 libro.setId(rs.getInt("id_libro"));
                 libro.setTitulo(rs.getString("titulo"));
-                AutorDAO autorDAO = new AutorDAO();
-                libro.setAutor(autorDAO.buscarAutor(rs.getInt("id_autor")));
-                CategoriaDAO categoriaDAO = new CategoriaDAO();
-                libro.setCategoria(categoriaDAO.buscarCategoria(rs.getInt("id_categoria")));
+                libro.setEstado(rs.getBoolean("estado"));
+                Autor autor = new Autor();
+                autor.setId(rs.getInt("id_autor"));
+                autor.setNombre(rs.getString("nombre_autor"));
+                libro.setAutor(autor);
+                Categoria categoria = new Categoria();
+                categoria.setId(rs.getInt("id_categoria"));
+                categoria.setNombre(rs.getString("nombre_categoria"));
+                libro.setCategoria(categoria);
             }
         } catch (SQLException | ClassNotFoundException e) {
             return null;
@@ -214,6 +230,30 @@ public class LibroDAO {
             stmt.setBoolean(3,tmpLibro.getEstado());
             stmt.setInt(4,tmpLibro.getAutor().getId());
             stmt.setInt(5,tmpLibro.getCategoria().getId());
+            stmt.execute();
+            return 0;
+        } catch (SQLException | ClassNotFoundException e) {
+            return 1;
+        }
+    }
+
+    /**
+     * Metodo para actualizar el estado de un libro en la base de datos
+     * @param tmpLibro el libro a actualizar
+     */
+    public int modificarLibro(Libro tmpLibro, Boolean estado){
+        Configuracion configuracion=new Configuracion();
+        try {
+            Class.forName(configuracion.getClaseJDBC());
+            Connection conn;
+            PreparedStatement stmt;
+            ResultSet rs = null;
+            String strConexion = configuracion.getStringConexion();
+            String query = "EXECUTE sp_modificar_estado_libro ?,?";
+            conn = DriverManager.getConnection(strConexion);
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1,tmpLibro.getId());
+            stmt.setBoolean(2,estado);
             stmt.execute();
             return 0;
         } catch (SQLException | ClassNotFoundException e) {

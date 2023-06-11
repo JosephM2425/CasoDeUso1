@@ -1,6 +1,6 @@
 package cr.ac.ucenfotec.bl.logic;
 
-import cr.ac.ucenfotec.bl.DAO.AutorDAO;
+
 import cr.ac.ucenfotec.bl.DAO.LibroDAO;
 import cr.ac.ucenfotec.bl.entities.Autor;
 import cr.ac.ucenfotec.bl.entities.Categoria;
@@ -8,6 +8,12 @@ import cr.ac.ucenfotec.bl.entities.Libro;
 
 import java.util.ArrayList;
 
+/**
+ * Clase LibroGestor que se encarga de la gestión de libros
+ * @version 1.0
+ * @since 06/06/2022
+ * @author Andres Soza
+ */
 public class LibroGestor {
     private LibroDAO libroDAO;
     private AutorGestor autorGestor;
@@ -73,9 +79,24 @@ public class LibroGestor {
                 libro.setAutor(autor);
                 libro.setCategoria(categoria);
 
-                libro.toString();
-
                 int resultado = libroDAO.modificarLibro(libro);
+                if (resultado == 0) {
+                    return "Modificacón exitosa!";
+                } else {
+                    return "Hubo un error en la modificacón, por favor verifique los datos.";
+                }
+            } else {
+                return "No existe un libro con ese título.";
+            }
+        } else {
+            return "El libro no puede ser nulo.";
+        }
+    }
+
+    public String modificarLibro(Libro libro, Boolean estado) {
+        if (libro != null) {
+            if(existeLibro(libro.getId())) {
+                int resultado = libroDAO.modificarLibro(libro, estado);
                 if (resultado == 0) {
                     return "Modificacón exitosa!";
                 } else {
@@ -116,38 +137,6 @@ public class LibroGestor {
             return "El libro \"" + libro.getTitulo() + "\" ha sido eliminado con exito!";
         } else {
             return "El libro \"" + libro.getTitulo() + "\" no pudo ser eliminado";
-        }
-    }
-
-    public String modificarLibro (int idLibro, String titulo, Boolean estado, int idAutor, int idCategoria) {
-        Libro libro = libroDAO.buscarLibro(idLibro);
-        if (libro != null) {
-            if (!titulo.equals("")) {
-                libro.setTitulo(titulo);
-            }
-            if (estado) {
-                libro.setEstado(estado);
-            }
-
-            if (idAutor != 0) {
-                libro.setAutor(autorGestor.buscarAutorPorID(idAutor));
-            }
-
-            if (idCategoria != 0) {
-                libro.setCategoria(categoriaGestor.buscarCategoriaPorId(idCategoria));
-            }
-
-            libroDAO.modificarLibro(libro);
-
-            libro = libroDAO.buscarLibro(idLibro);
-            return "Cambio realizado!" +
-                    "\n- ID: " + libro.getId() +
-                    "\n- Titulo: " + libro.getTitulo() +
-                    "\n- Estado: " + libro.getEstado() +
-                    "\n- Autor: " + libro.getAutor().getNombre() +
-                    "\n- Categoria: " + libro.getCategoria().getNombre();
-        } else {
-            return "No se encontro el libro con el ID: " + idLibro;
         }
     }
 

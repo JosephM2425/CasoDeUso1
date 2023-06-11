@@ -50,6 +50,43 @@ public class UsuarioDAO {
      * Metodo para listar los usuarios
      * @return un ArrayList con los usuarios
      */
+    public ArrayList<Usuario> listarUsuarios()
+    {
+        ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+        try {
+            Configuracion configuracion= new Configuracion();
+            Class.forName(configuracion.getClaseJDBC());
+            Connection conn = null;
+            String query = "SELECT * FROM vw_usuarios";
+            Statement stmt = null;
+            ResultSet rs = null;
+            String strConexion = configuracion.getStringConexion();
+            conn = DriverManager.getConnection(strConexion);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setId(rs.getInt("ID_USUARIO"));
+                usuario.setNombre_completo(rs.getString("NOMBRE_COMPLETO"));
+                usuario.setDireccion(rs.getString("DIRECCION"));
+                usuario.setTelefono(rs.getString("TELEFONO"));
+                usuario.setNombre_usuario(rs.getString("NOMBRE_USUARIO"));
+                usuario.setContrasena(rs.getString("CONTRASENA"));
+                usuario.setRol(rs.getString("ROL"));
+                usuarios.add(usuario);
+            }
+            conn.close();
+        } catch (Exception e){
+            return null;
+        }
+        return usuarios;
+    }
+
+    /**
+     * Metodo para listar los usuarios segun su rol
+     * @return un ArrayList con los usuarios
+     */
     public ArrayList<Usuario> listarUsuarios(String rol)
     {
         ArrayList<Usuario> usuarios = new ArrayList<Usuario>();

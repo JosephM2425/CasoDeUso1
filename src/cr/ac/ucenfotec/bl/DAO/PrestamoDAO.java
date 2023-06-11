@@ -6,7 +6,6 @@ import cr.ac.ucenfotec.bl.entities.Usuario;
 
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -156,6 +155,44 @@ public class PrestamoDAO {
     }
 
     /**
+     * Metodo para buscar un prestamo vigente segun el libro y el usuario
+     * @param libro es de tipo Libro y corresponde al libro por buscar
+     * @param usuario es de tipo Usuario y corresponde al usuario por buscar
+     * @return prestamo es de tipo Prestamo y corresponde al prestamo por buscar
+     */
+    public Prestamo buscarPrestamoVigente(Libro libro, Usuario usuario)
+    {
+        Configuracion configuracion = new Configuracion();
+        Prestamo prestamo = new Prestamo();
+        try {
+            Class.forName(configuracion.getClaseJDBC());
+            String strConexion = configuracion.getStringConexion();
+            Connection conn = null;
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+            conn = DriverManager.getConnection(strConexion);
+            String query = "EXECUTE sp_buscar_prestamo_vigente ?, ?";
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, libro.getId());
+            stmt.setInt(2, usuario.getId());
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                prestamo.setId(rs.getInt("id_prestamo"));
+                prestamo.setFecha_prestamo(rs.getDate("fecha_prestamo").toLocalDate());
+                prestamo.setFecha_vencimiento(rs.getDate("fecha_vencimiento").toLocalDate());
+               LibroDAO libroDAO = new LibroDAO();
+                prestamo.setLibro(libroDAO.buscarLibro(rs.getInt("ID_LIBRO")));
+                UsuarioDAO usuarioDAO = new UsuarioDAO();
+                prestamo.setUsuario(usuarioDAO.buscarUsuario(rs.getInt("ID_USUARIO")));
+            }
+            conn.close();
+            return prestamo;
+        } catch (Exception e){
+            return null;
+        }
+    }
+
+    /**
      * Metodo para eliminar un prestamo
      * @param prestamo es de tipo Prestamo y corresponde al prestamo por eliminar
      */
@@ -224,7 +261,7 @@ public class PrestamoDAO {
             PreparedStatement stmt = null;
             ResultSet rs = null;
             conn = DriverManager.getConnection(strConexion);
-            String query = "SELECT titulo, nombre_completo FROM Prestamo INNER JOIN Usuario ON Prestamo.id_usuario=Usuario.id_usuario INNER JOIN Libro ON Prestamo.id_libro=Libro.id_libro WHERE nombre_usuario= ?";
+            String query = "SELECT Libro.id_libro, titulo, Libro.estado, nombre_completo FROM Prestamo INNER JOIN Usuario ON Prestamo.id_usuario=Usuario.id_usuario INNER JOIN Libro ON Prestamo.id_libro=Libro.id_libro WHERE nombre_usuario= ?";
             stmt = conn.prepareStatement(query);
             stmt.setString(1, nombreUsuario);
             rs = stmt.executeQuery();
@@ -233,7 +270,9 @@ public class PrestamoDAO {
                 Prestamo prestamo = new Prestamo();
                 Libro libro = new Libro();
                 Usuario usuario = new Usuario();
+                libro.setId(rs.getInt("id_libro"));
                 libro.setTitulo(rs.getString("titulo"));
+                libro.setEstado(rs.getBoolean("estado"));
                 usuario.setNombre_completo(rs.getString("nombre_completo"));
                 prestamo.setLibro(libro);
                 prestamo.setUsuario(usuario);

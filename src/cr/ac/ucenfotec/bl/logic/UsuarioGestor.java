@@ -4,6 +4,12 @@ import cr.ac.ucenfotec.bl.DAO.UsuarioDAO;
 import cr.ac.ucenfotec.bl.entities.Usuario;
 import java.util.ArrayList;
 
+/**
+ * Clase UsuarioGestor que se encarga de la gestión de usuarios
+ * @version 1.0
+ * @since 06/06/2022
+ * @author Andres Soza
+ */
 public class UsuarioGestor {
     private UsuarioDAO usuarioDAO;
 
@@ -22,6 +28,14 @@ public class UsuarioGestor {
         } else {
             return "Usuario ya existente. Por favor elija otro nombre de usuario.";
         }
+    }
+
+    public ArrayList<Usuario> listarUsuarios() {
+        return usuarioDAO.listarUsuarios();
+    }
+
+    public ArrayList<Usuario> listarUsuarios(String tipoUsuario) {
+        return usuarioDAO.listarUsuarios(tipoUsuario);
     }
 
     public String modificarUsuario(Usuario usuario) {
@@ -72,9 +86,5 @@ public class UsuarioGestor {
         } else {
             return true;
         }
-    }
-
-    public ArrayList<Usuario> listarUsuarios(String tipoUsuario) {
-        return usuarioDAO.listarUsuarios(tipoUsuario);
     }
 }
