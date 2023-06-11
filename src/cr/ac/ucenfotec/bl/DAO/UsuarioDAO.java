@@ -50,14 +50,19 @@ public class UsuarioDAO {
      * Metodo para listar los usuarios
      * @return un ArrayList con los usuarios
      */
-    public ArrayList<Usuario> listarUsuarios()
+    public ArrayList<Usuario> listarUsuarios(String rol)
     {
         ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
         try {
             Configuracion configuracion= new Configuracion();
             Class.forName(configuracion.getClaseJDBC());
             Connection conn = null;
-            String query = "SELECT * FROM vw_usuarios";
+            String query = "";
+            if (rol.equals("Administrador")) {
+                query = "SELECT * FROM vw_usuarios_administrador";
+            } else if (rol.equals("Cliente")) {
+                query = "SELECT * FROM vw_usuarios_cliente";
+            }
             Statement stmt = null;
             ResultSet rs = null;
             String strConexion = configuracion.getStringConexion();
