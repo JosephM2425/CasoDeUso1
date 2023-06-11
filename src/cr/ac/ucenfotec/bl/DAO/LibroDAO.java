@@ -172,11 +172,14 @@ public class LibroDAO {
             PreparedStatement stmt;
             ResultSet rs = null;
             String strConexion = configuracion.getStringConexion();
-            String query = "EXECUTE sp_modificar_libro ?,?";
+            String query = "EXECUTE sp_modificar_libro ?,?,?,?,?";
             conn = DriverManager.getConnection(strConexion);
             stmt = conn.prepareStatement(query);
             stmt.setInt(1,tmpLibro.getId());
-            stmt.setBoolean(2,tmpLibro.getEstado());
+            stmt.setString(2,tmpLibro.getTitulo());
+            stmt.setBoolean(3,tmpLibro.getEstado());
+            stmt.setInt(4,tmpLibro.getAutor().getId());
+            stmt.setInt(5,tmpLibro.getCategoria().getId());
             stmt.execute();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
